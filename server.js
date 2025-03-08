@@ -35,32 +35,32 @@ function requireAuth(req, res, next) {
 }
 
 app.get('/', (req, res) => {
-  if(req.session.user) return res.redirect('/home');
+  if(req.session.user) return res.redirect('/home.html');
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
-app.get('/register', (req, res) => { res.sendFile(path.join(__dirname, 'public', 'register.html')); });
-app.post('/register', async (req, res) => {
+app.get('/register.html', (req, res) => { res.sendFile(path.join(__dirname, 'public', 'register.html')); });
+app.post('/register.html', async (req, res) => {
   const { username, email, password } = req.body;
   try {
     const existing = await User.findOne({ where: { username } });
     if(existing) return res.send("Username already exists.");
     const newUser = await User.create({ username, email, password });
     req.session.user = { id: newUser.id, username: newUser.username, email: newUser.email };
-    res.redirect('/home');
+    res.redirect('/home.html');
   } catch(err) { console.error(err); res.send("Registration error."); }
 });
 app.post('/login', async (req, res) => {
   const { username, password } = req.body;
   try {
     const user = await User.findOne({ where: { username, password } });
-    if(user) { req.session.user = { id: user.id, username: user.username, email: user.email }; res.redirect('/home'); }
+    if(user) { req.session.user = { id: user.id, username: user.username, email: user.email }; res.redirect('/home.html'); }
     else res.send("Invalid credentials.");
   } catch(err) { console.error(err); res.send("Login error."); }
 });
-app.get('/home', requireAuth, (req, res) => { res.sendFile(path.join(__dirname, 'public', 'home.html')); });
-app.get('/friend', requireAuth, (req, res) => { res.sendFile(path.join(__dirname, 'public', 'friend.html')); });
-app.get('/group', requireAuth, (req, res) => { res.sendFile(path.join(__dirname, 'public', 'group.html')); });
-app.get('/admin', requireAuth, async (req, res) => {
+app.get('/home.html', requireAuth, (req, res) => { res.sendFile(path.join(__dirname, 'public', 'home.html')); });
+app.get('/friend.html', requireAuth, (req, res) => { res.sendFile(path.join(__dirname, 'public', 'friend.html')); });
+app.get('/group.html', requireAuth, (req, res) => { res.sendFile(path.join(__dirname, 'public', 'group.html')); });
+app.get('/admin.html', requireAuth, async (req, res) => {
   if(req.session.user.username !== 'admin') return res.send("Access denied. (Admin: username=admin, password=000)");
   res.sendFile(path.join(__dirname, 'public', 'admin.html'));
 });
