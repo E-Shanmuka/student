@@ -8,13 +8,13 @@ const multer = require('multer');
 const { Op } = require('sequelize');
 
 const sequelize = require('./db');
-const User = require('./models/user');
-const Blog = require('./models/blog');
-const BlogComment = require('./models/blogcomment');
-const BlogLike = require('./models/bloglike');
-const PrivateChat = require('./models/privatechat');
-const Group = require('./models/group');
-const GroupChat = require('./models/groupchat');
+const User = require('./models/user.js');
+const Blog = require('./models/blog.js');
+const BlogComment = require('./models/blogcomment.js');
+const BlogLike = require('./models/bloglike.js');
+const PrivateChat = require('./models/privatechat.js');
+const Group = require('./models/group.js');
+const GroupChat = require('./models/groupchat.js');
 
 const app = express();
 const server = http.createServer(app);
